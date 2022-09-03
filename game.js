@@ -8,10 +8,11 @@ window.addEventListener('load',() => {
     var gameOn = 0 , score = 0 , boundsMouseOut = 1
     let i = 0, j = 0;
 
+    startEL()
 
-    // Start Functions
+    // Start Functions ---------------------------------------------------------------------------------------------
 
-    function startEL(){ // EventListner for start
+    function startEL(){ // EventListner for hovering over start
         start.addEventListener("mouseover", startELFN)
     }
 
@@ -29,7 +30,7 @@ window.addEventListener('load',() => {
         start.removeEventListener("mouseover" , startELFN)
     }
 
-    function startElOc(){ // start on-click event lisetner
+    function startElOc(){ // start on-click event lisetner // note: not seperated since the eventListener doesn't need to be removed
         start.addEventListener("click" , function (){
             console.log("Clicked S")
             score = 0 
@@ -38,13 +39,13 @@ window.addEventListener('load',() => {
         })
     }
 
-    function boundariesEL(){ // EventListner for boundaries
+    function boundariesEL(){ // EventListner for hovering over boundaries
         for(i = 0 ; i < boundaries.length -1 ; i++){
             boundaries[i].addEventListener("mouseover", boundariesELFN)
         }
     }
 
-    function boundariesELFN() { // boundaries eventListner function
+    function boundariesELFN() { // Boundaries eventListner function
         console.log("Hit boundary")
         if( gameOn== 1 ){
             gameOn = 0
@@ -59,11 +60,11 @@ window.addEventListener('load',() => {
         }
     }
 
-    function endEL(){ // EventListner for end
+    function endEL(){ // EventListner for hovering over  end
         end.addEventListener("mouseover", endELFN)
     }
 
-    function endELFN(){ // end eventListner function
+    function endELFN(){ // End eventListner function
         console.log("Ended")
         if( gameOn == 1 ){
             gameOn = 0
@@ -79,7 +80,7 @@ window.addEventListener('load',() => {
     }
 
     function gameEL(){
-        game.addEventListener("mouseleave", function() {
+        game.addEventListener("mouseleave", function() { // EventListener to prevent the user from exiting the maze div
             if( gameOn== 1 ){
                 gameOn = 0
                 score -= 10
@@ -94,8 +95,5 @@ window.addEventListener('load',() => {
         })
     }
 
-    // End of functions
-
-    startEL()
-
-  });
+    // End of functions ---------------------------------------------------------------------------------------
+   });
