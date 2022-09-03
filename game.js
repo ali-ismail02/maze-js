@@ -83,7 +83,7 @@ window.addEventListener('load',() => {
             if( gameOn== 1 ){
                 gameOn = 0
                 score -= 10
-                status.textContent = "YOU LOST!! Hover over S to continue or press it to reset your score is: " + score
+                status.textContent = "DON'T CHEAT!! Hover over S to continue or press it to reset your score is: " + score
                 for(i = 0 ; i < boundaries.length -1 ; i++){
                     boundaries[i].style.backgroundColor = "#ff8888"
                     boundaries[i].removeEventListener("mouseover", boundariesELFN)
