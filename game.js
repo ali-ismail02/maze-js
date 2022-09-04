@@ -6,7 +6,19 @@ window.addEventListener('load',() => {
     const game = document.getElementById("game")
     var status = document.getElementById("status")
     var gameOn = 0 , score = 0 , level = 1, time = 70
-    let i = 0, j = 0;
+    let i = 0, j = 0
+    let user = prompt("Please enter your username", "Username")
+
+    if(localStorage.getItem(user) != null){
+        score = parseInt( localStorage.getItem(user))
+        level =parseInt( localStorage.getItem(user + "level"))
+        status.textContent = "Hello " + user + "!! your score is: " + score + ", Your level is: " + level
+
+    }else{
+        localStorage.setItem(user,0)
+        localStorage.setItem(user + "level",1)
+        status.textContent = "Hello " + user + "!! your score is: " + score + ", Your level is: " + level
+    }
 
     startEL()
 
@@ -63,6 +75,7 @@ window.addEventListener('load',() => {
         if( gameOn== 1 ){
             gameOn = 0
             score -= 10
+            localStorage.setItem(user,score)
             status.textContent = "YOU LOST!! Hover over S to retry or press it to reset your score is: " + score
             for(i = 0 ; i < boundaries.length -1 ; i++){
                 boundaries[i].style.backgroundColor = "#ff8888"
@@ -81,8 +94,10 @@ window.addEventListener('load',() => {
         console.log("Ended")
         if( gameOn == 1 ){
             gameOn = 0
-            score += 5
+            score = score + 5
             level++
+            localStorage.setItem(user,score)
+            localStorage.setItem(user + "level", level)
             status.textContent = "YOU WON!! Hover over S to continue or press it to reset your score is: " + score
             for(i = 0 ; i < boundaries.length -1 ; i++){
                 boundaries[i].style.backgroundColor = "#88ff88"
@@ -98,6 +113,7 @@ window.addEventListener('load',() => {
             if( gameOn== 1 ){
                 gameOn = 0
                 score -= 10
+                localStorage.setItem(user,score)
                 status.textContent = "DON'T CHEAT!! Hover over S to retry or press it to reset your score is: " + score
                 for(i = 0 ; i < boundaries.length -1 ; i++){
                     boundaries[i].style.backgroundColor = "#ff8888"
@@ -111,8 +127,8 @@ window.addEventListener('load',() => {
 
     function delay(milliseconds){ // function for await
         return new Promise(resolve => {
-            setTimeout(resolve, milliseconds);
-        });
+            setTimeout(resolve, milliseconds)
+        })
     }
 
     async function timerFn() {
@@ -136,4 +152,4 @@ window.addEventListener('load',() => {
     }
 
     // End of functions ---------------------------------------------------------------------------------------
-   );
+   )
