@@ -5,7 +5,7 @@ window.addEventListener('load',() => {
     const end = document.getElementById("end")
     const game = document.getElementById("game")
     var status = document.getElementById("status")
-    var gameOn = 0 , score = 0 , boundsMouseOut = 1
+    var gameOn = 0 , score = 0 , level = 1, time = 70
     let i = 0, j = 0;
 
     startEL()
@@ -19,7 +19,19 @@ window.addEventListener('load',() => {
     function startELFN(){
         console.log("started")
         gameOn = 1
-        status.textContent = "keep the mouse within the white path to win!! your score is: " + score
+        if(level == 1){
+            status.textContent = "keep the mouse within the white path to win!! your score is: " + score
+        }else {
+            if(level <= 7 ){
+                time = 70 - ((level-1) * 10)
+            }else if(level <= 13) {
+                time = 17 - level
+            }else{
+                time = 4
+            }
+            status.textContent = "Level" + level + "!! your score is: " + score + ", Time left:" + time + "s"
+            timerFn()
+        }
         for(i = 0 ; i < boundaries.length -1 ; i++){
             boundaries[i].style.backgroundColor = "#eeeeee"; 
         }
@@ -35,6 +47,7 @@ window.addEventListener('load',() => {
             console.log("Clicked S")
             score = 0 
             gameOn = 1
+            level = 1
             status.textContent = "Game has been reset! keep the mouse within the white path to win!! your score is: " + score
         })
     }
@@ -50,7 +63,7 @@ window.addEventListener('load',() => {
         if( gameOn== 1 ){
             gameOn = 0
             score -= 10
-            status.textContent = "YOU LOST!! Hover over S to continue or press it to reset your score is: " + score
+            status.textContent = "YOU LOST!! Hover over S to retry or press it to reset your score is: " + score
             for(i = 0 ; i < boundaries.length -1 ; i++){
                 boundaries[i].style.backgroundColor = "#ff8888"
                 boundaries[i].removeEventListener("mouseover", boundariesELFN)
@@ -69,6 +82,7 @@ window.addEventListener('load',() => {
         if( gameOn == 1 ){
             gameOn = 0
             score += 5
+            level++
             status.textContent = "YOU WON!! Hover over S to continue or press it to reset your score is: " + score
             for(i = 0 ; i < boundaries.length -1 ; i++){
                 boundaries[i].style.backgroundColor = "#88ff88"
@@ -84,7 +98,7 @@ window.addEventListener('load',() => {
             if( gameOn== 1 ){
                 gameOn = 0
                 score -= 10
-                status.textContent = "DON'T CHEAT!! Hover over S to continue or press it to reset your score is: " + score
+                status.textContent = "DON'T CHEAT!! Hover over S to retry or press it to reset your score is: " + score
                 for(i = 0 ; i < boundaries.length -1 ; i++){
                     boundaries[i].style.backgroundColor = "#ff8888"
                     boundaries[i].removeEventListener("mouseover", boundariesELFN)
@@ -95,5 +109,31 @@ window.addEventListener('load',() => {
         })
     }
 
+    function delay(milliseconds){ // function for await
+        return new Promise(resolve => {
+            setTimeout(resolve, milliseconds);
+        });
+    }
+
+    async function timerFn() {
+        for( ; time >= 0 ; time-- ){
+            if(gameOn == 0 ) break
+            status.textContent = "Level" + level + "!! your score is: " + score + ", Time left:" + time + "s"
+            await delay(1000)
+        }
+        if( time == -1){
+            gameOn = 0
+            score -= 10
+            status.textContent = "TIME OVER!! Hover over S to retry or press it to reset your score is: " + score
+            for(i = 0 ; i < boundaries.length -1 ; i++){
+                boundaries[i].style.backgroundColor = "#ff8888"
+                boundaries[i].removeEventListener("mouseover", boundariesELFN)
+            }
+            end.removeEventListener("mouseover", endELFN)
+            startEL()
+        }
+        }
+    }
+
     // End of functions ---------------------------------------------------------------------------------------
-   });
+   );
